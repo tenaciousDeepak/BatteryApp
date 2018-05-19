@@ -41,6 +41,7 @@
 </LinearLayout>
 
     <TextView
+        tools:text="Charging via USB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chargeState"
