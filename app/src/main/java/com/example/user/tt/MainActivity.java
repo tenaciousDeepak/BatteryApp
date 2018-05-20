@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = registerReceiver(null, ifilter);
 
@@ -33,37 +34,39 @@ public class MainActivity extends AppCompatActivity {
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
 
 // How are we charging?
         int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-        int batteryPct = level * 100 / (int) scale;
+        int batteryPct = level * 100 / scale;
 
         TextView tv = findViewById(R.id.batteryText);
         tv.setText(batteryPct + "%");
+        TextView tv1 = findViewById(R.id.chargeState);
 
         if (isCharging == true) {
-            TextView tv1 = findViewById(R.id.chargeState);
+
             if (usbCharge == true) {
                 tv1.setText("Charging Over USB");
             }
 
-            if (acCharge == true) {
+            else if (acCharge == true) {
                 tv1.setText("Charging Over AC ");
             }
 
-        } else {
-            TextView tv1 = findViewById(R.id.chargeState);
-            tv1.setText("Not Charging     ");
+        }
+        else {
+            if(batteryPct == 100)
+                tv1.setText("Battery Full");
+            else
+                tv1.setText("Not Charging     ");
         }
 
         ProgressBar pv = findViewById(R.id.progressBar2);
         pv.setProgress(batteryPct);
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,6 +88,24 @@ public class MainActivity extends AppCompatActivity {
             overridePendingTransition(0, 0);
             startActivity(intent);
         }
+
+
+//        final Handler handler = new Handler();
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent intent = getIntent();
+//                overridePendingTransition(0, 0);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                finish();
+//                overridePendingTransition(0, 0);
+//                startActivity(intent);
+//                Log.i("Runnable has Run!", "a second must have passed");
+//
+//                handler.postDelayed(this, 1000);
+//            }
+//        };
+//        handler.post(runnable);
         return super.onOptionsItemSelected(item);
 
         /*final Handler handler = new Handler();
