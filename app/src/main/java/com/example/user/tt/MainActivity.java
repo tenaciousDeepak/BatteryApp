@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        boolean wirelessCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_WIRELESS;
 
         int batteryPct = level * 100 / scale;
 
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
             else if (acCharge == true) {
                 tv1.setText("Charging Over AC ");
             }
+
+            else
+                tv1.setText("Charging Over Wireless");
 
         }
         else {
