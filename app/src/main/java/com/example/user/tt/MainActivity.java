@@ -86,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+
+        /*final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Log.i("Runnable has Run!","a second must have passed");
+                handler.postDelayed(this,1000);
+            }
+        };
+        handler.post(runnable);*/
     }
 
     }
