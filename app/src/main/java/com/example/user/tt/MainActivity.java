@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText(batteryPct + "%");
                 TextView tv1 = findViewById(R.id.chargeState);
 
-                if (isCharging == true) {
+                if (isCharging == true && batteryPct!=100) {
 
                     if (usbCharge == true) {
                         tv1.setText("Charging Over USB");
