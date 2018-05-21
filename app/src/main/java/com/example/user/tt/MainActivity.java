@@ -67,7 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 ProgressBar pv = findViewById(R.id.progressBar2);
-                pv.setProgress(batteryPct);
+                if(!isCharging || batteryPct == 100) {
+                    pv.setProgress(batteryPct);
+                }
+                else{
+                    pv.setProgress(1);
+                    pv.setProgress(100,true);
+                }
             }
         };
         handler.post(runnable);
